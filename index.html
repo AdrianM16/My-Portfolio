@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Adrian M. Anunciacion — BSIT Web Developer & UI/UX Designer. Open for OJT/Internship."/>
+<title>Adrian Anunciacion · Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080810;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --surface: rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0eee8;
+  --text2: #9b98a8;
+  --text3: #5c5a6a;
+  --accent: #c8a97e;
+  --accent2: #e8c99e;
+  --gold: #d4a843;
+  --teal: #4ecdc4;
+  --purple: #9b7fe8;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Outfit', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --r: 12px;
+  --r2: 20px;
+  --max: 1140px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.7;
+  overflow-x:hidden;
+  cursor:none;
+}
+::selection{background:rgba(200,169,126,0.25);color:var(--accent2)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* CUSTOM CURSOR */
+#cur{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:var(--accent);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;
+  mix-blend-mode:screen;
+}
+#cur-ring{
+  position:fixed;width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(200,169,126,0.4);pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);transition:transform .08s linear,width .3s var(--ease),height .3s var(--ease),border-color .3s;
+}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px}
+body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:52px;height:52px;border-color:rgba(200,169,126,0.7)}
+
+/* NOISE OVERLAY */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* NAVBAR */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:22px 40px;display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,padding .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(8,8,16,0.85);backdrop-filter:blur(20px);
+  padding:16px 40px;border-color:var(--border);
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.5rem;font-weight:900;
+  letter-spacing:-0.02em;color:var(--text);
+}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{
+  font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text2);transition:color .25s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-cta{
+  background:var(--accent);color:var(--bg);padding:9px 24px;
+  border-radius:100px;font-size:.8rem;font-weight:600;letter-spacing:.06em;
+  transition:background .25s,transform .2s;cursor:pointer;border:none;
+  font-family:var(--sans);
+}
+.nav-cta:hover{background:var(--accent2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:1.5px;background:var(--text);transition:.3s;display:block}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}
+
+/* MOBILE MENU */
+.mob-menu{
+  position:fixed;inset:0;z-index:99;
+  background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:40px;
+  transform:translateY(-100%);transition:transform .5s var(--ease-out);
+}
+.mob-menu.open{transform:translateY(0)}
+.mob-menu a{font-family:var(--serif);font-size:2.8rem;font-weight:700;color:var(--text2);transition:color .2s}
+.mob-menu a:hover{color:var(--accent)}
+
+/* PAGES */
+.page{display:none;animation:fadeUp .6s var(--ease) forwards}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== HOME PAGE ===== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:120px 40px 80px;
+}
+.hero-orb{
+  position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;
+}
+.hero-orb.o1{width:600px;height:600px;background:rgba(200,169,126,0.07);top:-200px;right:-100px}
+.hero-orb.o2{width:400px;height:400px;background:rgba(155,127,232,0.05);bottom:-100px;left:-100px}
+.hero-orb.o3{width:300px;height:300px;background:rgba(78,205,196,0.04);top:40%;left:30%}
+
+.hero-inner{
+  max-width:var(--max);width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;gap:80px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.75rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:32px;
+  opacity:0;animation:fadeUp .6s var(--ease) .1s forwards;
+}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--accent)}
+.hero-name{
+  font-family:var(--serif);font-size:clamp(3.5rem,7vw,6.5rem);font-weight:900;
+  line-height:0.95;letter-spacing:-0.03em;margin-bottom:24px;
+  opacity:0;animation:fadeUp .8s var(--ease) .2s forwards;
+}
+.hero-name em{color:var(--accent);font-style:italic}
+.hero-role{
+  font-family:var(--mono);font-size:.9rem;color:var(--text2);margin-bottom:32px;
+  opacity:0;animation:fadeUp .6s var(--ease) .35s forwards;
+}
+.hero-role span{color:var(--teal)}
+.hero-desc{
+  font-size:1.05rem;color:var(--text2);max-width:520px;line-height:1.8;
+  margin-bottom:48px;opacity:0;animation:fadeUp .6s var(--ease) .45s forwards;
+}
+.hero-desc strong{color:var(--text);font-weight:500}
+.hero-actions{
+  display:flex;gap:16px;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .6s var(--ease) .55s forwards;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:var(--bg);padding:14px 32px;
+  border-radius:100px;font-weight:600;font-size:.9rem;
+  transition:background .25s,transform .2s,box-shadow .25s;cursor:pointer;border:none;
+  font-family:var(--sans);
+}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 20px 40px rgba(200,169,126,0.2)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid var(--border2);color:var(--text2);padding:14px 32px;
+  border-radius:100px;font-weight:500;font-size:.9rem;
+  transition:border-color .25s,color .25s,transform .2s;background:transparent;cursor:pointer;
+  font-family:var(--sans);
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-socials{
+  display:flex;gap:20px;margin-top:40px;
+  opacity:0;animation:fadeUp .6s var(--ease) .65s forwards;
+}
+.social-link{
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text3);transition:border-color .25s,color .25s,transform .25s;
+}
+.social-link:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-3px)}
+.social-link svg{width:16px;height:16px;fill:currentColor}
+
+/* HERO CARD */
+.hero-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);
+  padding:36px;text-align:center;min-width:260px;
+  opacity:0;animation:fadeUp .8s var(--ease) .3s forwards;
+  backdrop-filter:blur(10px);position:relative;overflow:hidden;
+}
+.hero-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(200,169,126,0.06),transparent);
+  pointer-events:none;
+}
+.hero-avatar{
+  width:120px;height:120px;border-radius:50%;border:2px solid var(--accent);
+  overflow:hidden;margin:0 auto 20px;position:relative;
+}
+.hero-avatar img{width:100%;height:100%;object-fit:cover}
+.hero-avatar-fallback{
+  width:120px;height:120px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:2.5rem;font-weight:900;color:var(--bg);
+  margin:0 auto 20px;border:2px solid var(--accent);
+}
+.status-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(78,205,196,0.1);border:1px solid rgba(78,205,196,0.2);
+  color:var(--teal);padding:6px 14px;border-radius:100px;
+  font-size:.72rem;font-weight:500;letter-spacing:.08em;margin-bottom:16px;
+}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.card-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:.78rem;color:var(--text2)}
+.card-divider{height:1px;background:var(--border);margin:20px 0}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cs{text-align:center}
+.cs-num{font-family:var(--serif);font-size:1.6rem;font-weight:900;color:var(--accent)}
+.cs-lab{font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+
+/* MARQUEE */
+.marquee-wrap{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:18px 0;overflow:hidden;position:relative;
+}
+.marquee-wrap::before,.marquee-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:200px;z-index:2;pointer-events:none;
+}
+.marquee-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.marquee-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+.marquee-track{display:flex;animation:marquee 30s linear infinite}
+.marquee-inner{display:flex;gap:40px;align-items:center;white-space:nowrap;padding-right:40px}
+.marquee-inner span{font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.marquee-inner .sep{color:var(--accent);font-size:.6rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION SHARED */
+.section{padding:100px 40px}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-label{
+  font-family:var(--mono);font-size:.72rem;color:var(--accent);
+  letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
+.section-heading{
+  font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:900;
+  line-height:1.1;letter-spacing:-0.02em;
+}
+.section-heading em{color:var(--accent);font-style:italic}
+.sub-text{font-size:1.05rem;color:var(--text2);line-height:1.8;max-width:600px}
+
+/* HOME ABOUT SNAPSHOT */
+.about-snap-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.about-snap-text .section-heading{margin-bottom:24px}
+.about-snap-text p{color:var(--text2);line-height:1.8;margin-bottom:16px;font-size:1rem}
+.about-snap-text p strong{color:var(--text);font-weight:500}
+.text-link{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--accent);font-size:.9rem;font-weight:500;margin-top:8px;
+  transition:gap .25s;
+}
+.text-link:hover{gap:14px}
+.about-visual{position:relative}
+.about-img-wrap{
+  border-radius:var(--r2);overflow:hidden;aspect-ratio:3/4;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover}
+.about-img-placeholder{
+  width:100%;height:100%;
+  background:linear-gradient(160deg,rgba(200,169,126,0.1),rgba(155,127,232,0.08));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+}
+.about-img-placeholder span{font-family:var(--serif);font-size:4rem;opacity:0.3}
+.about-float-card{
+  position:absolute;bottom:-20px;right:-20px;
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);
+  padding:16px 20px;backdrop-filter:blur(20px);
+}
+.afc-label{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.1em;margin-bottom:6px}
+.afc-val{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chip{
+  font-size:.75rem;font-weight:500;color:var(--text2);
+  border:1px solid var(--border);border-radius:100px;padding:5px 14px;
+  transition:border-color .2s,color .2s;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+
+/* PROJECTS PREVIEW */
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:60px}
+.project-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;transition:transform .35s var(--ease),border-color .3s,box-shadow .35s;
+  group:hover;
+}
+.project-card:hover{transform:translateY(-6px);border-color:var(--border2);box-shadow:0 30px 60px rgba(0,0,0,0.4)}
+.project-card.featured{grid-column:span 2}
+.card-img-wrap{
+  position:relative;overflow:hidden;aspect-ratio:16/9;
+  background:var(--bg3);
+}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.project-card:hover .card-img-wrap img{transform:scale(1.04)}
+.card-img-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--bg3),var(--bg2));
+}
+.card-img-placeholder span{font-family:var(--serif);font-size:3rem;opacity:0.2;color:var(--accent)}
+.card-overlay{
+  position:absolute;inset:0;
+  background:rgba(8,8,16,0.7);backdrop-filter:blur(4px);
+  display:flex;gap:12px;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;
+}
+.project-card:hover .card-overlay{opacity:1}
+.overlay-btn{
+  background:var(--accent);color:var(--bg);padding:10px 22px;
+  border-radius:100px;font-size:.8rem;font-weight:600;
+  transition:background .2s,transform .2s;
+}
+.overlay-btn:hover{background:var(--accent2);transform:scale(1.04)}
+.overlay-btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.3);color:var(--text)}
+.overlay-btn-ghost:hover{background:rgba(255,255,255,.1);transform:scale(1.04)}
+.card-body{padding:24px}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag{
+  font-family:var(--mono);font-size:.65rem;color:var(--accent);
+  border:1px solid rgba(200,169,126,0.2);border-radius:4px;padding:3px 8px;
+}
+.card-title{font-family:var(--serif);font-size:1.15rem;font-weight:700;margin-bottom:8px;line-height:1.3}
+.card-desc{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:16px}
+.card-links{display:flex;gap:16px}
+.card-link{font-size:.8rem;font-weight:500;color:var(--text2);transition:color .2s}
+.card-link:hover{color:var(--accent)}
+.card-link-ext{color:var(--teal)}
+.card-link-ext:hover{color:#7eded9}
+
+/* SKILLS */
+.skills-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.skill-group{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:28px;
+}
+.sg-title{
+  font-family:var(--mono);font-size:.7rem;color:var(--accent);
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.sg-title::before{content:'';width:20px;height:1px;background:var(--accent)}
+.skill-bar-item{margin-bottom:18px}
+.sb-top{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px}
+.sb-top span:last-child{font-family:var(--mono);font-size:.75rem;color:var(--accent)}
+.sb-track{height:3px;background:var(--border);border-radius:10px;overflow:hidden}
+.sb-fill{
+  height:100%;background:linear-gradient(to right,var(--accent),var(--accent2));
+  border-radius:10px;transform-origin:left;
+  transform:scaleX(0);transition:transform 1.2s var(--ease);
+}
+.sb-fill.animated{transform:scaleX(var(--pct))}
+.learn-item{
+  display:flex;align-items:center;gap:14px;padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+.learn-item:last-child{border-bottom:none}
+.learn-icon{font-size:1.4rem;width:36px;text-align:center}
+.learn-name{font-size:.88rem;font-weight:500;margin-bottom:2px}
+.learn-note{font-size:.75rem;color:var(--text3)}
+
+/* CTA STRIP */
+.cta-section{
+  padding:80px 40px;
+}
+.cta-box{
+  max-width:var(--max);margin:0 auto;
+  background:linear-gradient(135deg,rgba(200,169,126,0.1),rgba(155,127,232,0.06));
+  border:1px solid var(--border2);border-radius:var(--r2);
+  padding:60px;display:flex;align-items:center;justify-content:space-between;gap:40px;
+  position:relative;overflow:hidden;
+}
+.cta-box::before{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;border-radius:50%;
+  background:rgba(200,169,126,0.05);filter:blur(80px);
+  pointer-events:none;
+}
+.cta-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;margin-bottom:12px}
+.cta-desc{color:var(--text2);max-width:480px;font-size:1rem;line-height:1.7}
+.cta-actions{display:flex;gap:14px;flex-shrink:0}
+
+/* FOOTER */
+.footer{
+  border-top:1px solid var(--border);padding:60px 40px 32px;
+}
+.footer-inner{
+  max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:60px;margin-bottom:48px;
+}
+.footer-logo{font-family:var(--serif);font-size:1.4rem;font-weight:900;margin-bottom:12px}
+.footer-logo span{color:var(--accent)}
+.footer-tagline{font-size:.85rem;color:var(--text3);line-height:1.7}
+.footer-col-title{
+  font-family:var(--mono);font-size:.68rem;color:var(--accent);
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;
+}
+.footer-col a{display:block;font-size:.88rem;color:var(--text3);margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{
+  max-width:var(--max);margin:0 auto;
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;color:var(--text3);
+}
+.footer-made strong{color:var(--accent)}
+
+/* ===== ABOUT PAGE ===== */
+.page-hero{
+  min-height:60vh;display:flex;align-items:center;
+  padding:160px 40px 80px;position:relative;overflow:hidden;
+}
+.page-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 800px 600px at 60% 50%,rgba(200,169,126,0.05),transparent);
+  pointer-events:none;
+}
+.page-hero-inner{max-width:var(--max);width:100%;margin:0 auto}
+.page-hero-inner .section-label{margin-bottom:20px}
+.page-hero-inner .section-heading{margin-bottom:20px}
+.page-hero-subtitle{font-size:1.1rem;color:var(--text2);max-width:560px;line-height:1.8}
+
+.about-grid{display:grid;grid-template-columns:340px 1fr;gap:70px;align-items:start}
+.about-photo-block{position:sticky;top:100px}
+.about-photo{
+  border-radius:var(--r2);overflow:hidden;aspect-ratio:3/4;
+  background:var(--surface);border:1px solid var(--border);margin-bottom:24px;
+}
+.about-photo img{width:100%;height:100%;object-fit:cover}
+.about-photo-placeholder{
+  width:100%;height:100%;
+  background:linear-gradient(160deg,rgba(200,169,126,0.12),rgba(155,127,232,0.08));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:5rem;opacity:0.3;
+}
+.quick-info{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;
+}
+.info-row{display:flex;flex-direction:column;padding:10px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row:first-child{padding-top:0}
+.info-label{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.info-val{font-size:.88rem;color:var(--text)}
+.info-val.status{color:var(--teal)}
+
+.about-section{margin-bottom:60px}
+.about-section h3{
+  font-family:var(--serif);font-size:1.5rem;font-weight:700;margin-bottom:20px;
+  padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+.about-section p{color:var(--text2);line-height:1.8;margin-bottom:14px;font-size:.97rem}
+.about-section p strong{color:var(--text);font-weight:500}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:var(--border)}
+.tl-item{position:relative;padding-bottom:32px}
+.tl-item::before{
+  content:'';position:absolute;left:-28px;top:8px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg);
+}
+.tl-date{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.08em;margin-bottom:5px}
+.tl-title{font-size:.97rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.tl-desc{font-size:.88rem;color:var(--text2);line-height:1.7}
+
+/* CERTIFICATES */
+.certs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.cert-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:14px;display:flex;align-items:center;gap:12px;
+  transition:border-color .2s;
+}
+.cert-card:hover{border-color:var(--border2)}
+.cert-thumb{
+  width:48px;height:36px;border-radius:6px;overflow:hidden;
+  background:var(--bg3);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.cert-thumb img{width:100%;height:100%;object-fit:cover}
+.cert-name{font-size:.82rem;font-weight:500;margin-bottom:2px}
+.cert-issuer{font-size:.72rem;color:var(--text3);font-family:var(--mono)}
+
+/* ===== PROJECTS PAGE ===== */
+.projects-full-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px}
+.filter-btn{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:7px 18px;border-radius:100px;border:1px solid var(--border);
+  color:var(--text3);background:transparent;cursor:pointer;transition:.2s;font-family:var(--sans);
+}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(200,169,126,0.08)}
+.project-card-lg{grid-column:span 2}
+
+/* ===== RESUME PAGE ===== */
+.resume-layout{display:grid;grid-template-columns:1fr 320px;gap:50px;align-items:start}
+.resume-section{margin-bottom:50px}
+.resume-section h3{
+  font-family:var(--serif);font-size:1.3rem;font-weight:700;margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;color:var(--text);
+}
+.resume-section h3::after{content:'';flex:1;height:1px;background:var(--border)}
+.exp-item{padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px}
+.exp-title{font-size:1rem;font-weight:600;margin-bottom:4px}
+.exp-meta{font-family:var(--mono);font-size:.72rem;color:var(--accent);margin-bottom:8px}
+.exp-desc{font-size:.88rem;color:var(--text2);line-height:1.7}
+.skills-pill-group{margin-bottom:20px}
+.skills-pill-label{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.skills-pills{display:flex;flex-wrap:wrap;gap:7px}
+.skills-pill{
+  font-size:.75rem;padding:5px 12px;border-radius:100px;
+  border:1px solid var(--border);color:var(--text2);
+}
+.resume-sidebar .section-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);
+  padding:24px;margin-bottom:20px;
+}
+.sbox-title{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.contact-item{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:.85rem;color:var(--text2)}
+.contact-item svg{width:14px;height:14px;fill:none;stroke:var(--accent);stroke-width:2;flex-shrink:0}
+.download-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--accent);color:var(--bg);padding:13px;border-radius:100px;
+  font-weight:600;font-size:.88rem;transition:background .2s;cursor:pointer;border:none;
+  font-family:var(--sans);
+}
+.download-btn:hover{background:var(--accent2)}
+
+/* ===== CONTACT PAGE ===== */
+.contact-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:70px;align-items:start}
+.contact-intro{font-size:1.05rem;color:var(--text2);line-height:1.8;margin-bottom:40px}
+.contact-intro strong{color:var(--text);font-weight:500}
+.contact-methods{display:flex;flex-direction:column;gap:14px}
+.contact-method{
+  display:flex;align-items:center;gap:16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:16px 20px;transition:border-color .25s,transform .25s;
+}
+.contact-method:hover{border-color:var(--border2);transform:translateX(4px)}
+.cm-icon{
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent);
+}
+.cm-icon svg{width:16px;height:16px;fill:currentColor}
+.cm-label{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.08em;margin-bottom:3px}
+.cm-value{font-size:.88rem;color:var(--text)}
+.response-note{
+  margin-top:28px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px 20px;
+}
+.rn-label{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.1em;margin-bottom:6px}
+.rn-text{font-size:.85rem;color:var(--text2);line-height:1.6}
+.rn-text strong{color:var(--text);font-weight:500}
+.form-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);
+  padding:40px;
+}
+.form-title{font-family:var(--serif);font-size:1.4rem;font-weight:700;margin-bottom:6px}
+.form-subtitle{font-size:.88rem;color:var(--text2);margin-bottom:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-field{margin-bottom:18px}
+.form-field label{display:block;font-size:.78rem;font-weight:500;color:var(--text2);margin-bottom:7px;letter-spacing:.03em}
+.form-field input,.form-field textarea,.form-field select{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text);font-family:var(--sans);font-size:.9rem;
+  padding:12px 16px;transition:border-color .25s;outline:none;
+}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--accent)}
+.form-field textarea{resize:vertical;min-height:130px;line-height:1.6}
+.form-submit{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--accent);color:var(--bg);padding:15px;border-radius:100px;
+  font-weight:600;font-size:.95rem;transition:background .25s,transform .2s;
+  cursor:pointer;border:none;font-family:var(--sans);
+}
+.form-submit:hover{background:var(--accent2);transform:translateY(-2px)}
+.form-note{font-size:.75rem;color:var(--text3);text-align:center;margin-top:12px}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* SCROLL PROGRESS */
+#scroll-progress{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(to right,var(--accent),var(--teal));z-index:200;
+  transition:width .1s linear;
+}
+
+/* BACK TO TOP */
+#back-to-top{
+  position:fixed;bottom:32px;right:32px;z-index:50;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transform:translateY(20px);opacity:0;transition:all .3s var(--ease);
+  color:var(--text2);
+}
+#back-to-top.visible{opacity:1;transform:translateY(0)}
+#back-to-top:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+#back-to-top svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav{padding:18px 24px}
+  .nav.scrolled{padding:14px 24px}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-card{display:none}
+  .hero-eyebrow,.hero-socials{justify-content:center}
+  .hero-actions{justify-content:center}
+  .about-snap-grid,.about-grid,.resume-layout,.contact-layout{grid-template-columns:1fr}
+  .about-photo-block{position:static}
+  .skills-layout{grid-template-columns:1fr}
+  .projects-grid,.projects-full-grid{grid-template-columns:1fr}
+  .project-card.featured,.project-card-lg{grid-column:span 1}
+  .cta-box{flex-direction:column;text-align:center}
+  .cta-actions{justify-content:center}
+  .footer-inner{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+  .section{padding:60px 24px}
+  .hero{padding:100px 24px 60px}
+  .certs-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hero-name{font-size:2.8rem}
+  .cta-box{padding:32px 24px}
+  .form-card{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAVBAR -->
+<header class="nav" id="navbar">
+  <a class="nav-logo" href="#" onclick="navigate('home')">Adrian<span>.</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#" onclick="navigate('home')" data-page="home" class="active">Home</a></li>
+    <li><a href="#" onclick="navigate('about')" data-page="about">About</a></li>
+    <li><a href="#" onclick="navigate('projects')" data-page="projects">Projects</a></li>
+    <li><a href="#" onclick="navigate('resume')" data-page="resume">Resume</a></li>
+    <li><a href="#" onclick="navigate('contact')" data-page="contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="navigate('contact')">Hire Me</button>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <a href="#" onclick="navigate('home');closeMob()">Home</a>
+  <a href="#" onclick="navigate('about');closeMob()">About</a>
+  <a href="#" onclick="navigate('projects');closeMob()">Projects</a>
+  <a href="#" onclick="navigate('resume');closeMob()">Resume</a>
+  <a href="#" onclick="navigate('contact');closeMob()">Contact</a>
+</div>
+
+<!-- ════════════════════ HOME PAGE ════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb o1"></div>
+    <div class="hero-orb o2"></div>
+    <div class="hero-orb o3"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Available for OJT &amp; Internship</div>
+        <h1 class="hero-name">
+          Hi, I'm<br/>
+          <em>Adrian</em><br/>
+          Anunciacion<span style="color:var(--accent)">.</span>
+        </h1>
+        <div class="hero-role">
+          <span style="color:var(--text3)">&lt;</span>
+          <span id="typewriter" style="color:var(--teal)"></span>
+          <span class="tw-cursor">|</span>
+          <span style="color:var(--text3)">/&gt;</span>
+        </div>
+        <p class="hero-desc">
+          BSIT student at <strong>Holy Angel University</strong> specializing in 
+          <strong>Web Development &amp; UI/UX Design</strong>. I craft digital experiences 
+          that are both beautiful and purposeful — where clean code meets compelling design.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="navigate('projects')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            View My Work
+          </button>
+          <a href="assets/Adrian_Anunciacion_Resume_and_CoverLetter.pdf" download class="btn-outline">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CV
+          </a>
+        </div>
+        <div class="hero-socials">
+          <a href="https://github.com/AdrianM16" target="_blank" class="social-link" title="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank" class="social-link" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="mailto:adriananunciacion80@gmail.com" class="social-link" title="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-avatar-fallback">A</div>
+          <div class="status-badge"><span class="status-dot"></span>Open for OJT</div>
+          <div class="card-name">Adrian M. Anunciacion</div>
+          <div class="card-sub">BSIT · Holy Angel University</div>
+          <div class="card-divider"></div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-num">4+</div><div class="cs-lab">Projects</div></div>
+            <div class="cs"><div class="cs-num">4+</div><div class="cs-lab">Certificates</div></div>
+            <div class="cs"><div class="cs-num">2+</div><div class="cs-lab">Years</div></div>
+            <div class="cs"><div class="cs-num">HAU</div><div class="cs-lab">University</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-inner">
+        <span>HTML5</span><span class="sep">✦</span>
+        <span>CSS3</span><span class="sep">✦</span>
+        <span>JavaScript</span><span class="sep">✦</span>
+        <span>Figma</span><span class="sep">✦</span>
+        <span>WordPress</span><span class="sep">✦</span>
+        <span>Node.js</span><span class="sep">✦</span>
+        <span>Responsive Design</span><span class="sep">✦</span>
+        <span>UI/UX Design</span><span class="sep">✦</span>
+        <span>Git & GitHub</span><span class="sep">✦</span>
+        <span>Web Accessibility</span><span class="sep">✦</span>
+        <span>HTML5</span><span class="sep">✦</span>
+        <span>CSS3</span><span class="sep">✦</span>
+        <span>JavaScript</span><span class="sep">✦</span>
+        <span>Figma</span><span class="sep">✦</span>
+        <span>WordPress</span><span class="sep">✦</span>
+        <span>Node.js</span><span class="sep">✦</span>
+        <span>Responsive Design</span><span class="sep">✦</span>
+        <span>UI/UX Design</span><span class="sep">✦</span>
+        <span>Git & GitHub</span><span class="sep">✦</span>
+        <span>Web Accessibility</span><span class="sep">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT SNAPSHOT -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="about-snap-grid">
+        <div class="about-snap-text reveal">
+          <div class="section-label">About Me</div>
+          <h2 class="section-heading">Building digital experiences that <em>matter</em>.</h2>
+          <p style="margin-top:24px">
+            I'm <strong>Adrian M. Anunciacion</strong>, a BS Information Technology student at Holy Angel University focused on web development and UI/UX design. I love turning complex ideas into clean, functional, and visually compelling websites.
+          </p>
+          <p>
+            With 2+ years of learning and hands-on projects, I'm actively seeking an <strong>OJT / internship</strong> where I can apply my skills, collaborate with real teams, and grow as a professional developer.
+          </p>
+          <a href="#" class="text-link" onclick="navigate('about')">
+            My full story →
+          </a>
+          <div class="chips">
+            <span class="chip">HTML/CSS</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">Figma</span>
+            <span class="chip">WordPress</span>
+            <span class="chip">Git</span>
+            <span class="chip">Node.js</span>
+            <span class="chip">UI/UX</span>
+            <span class="chip">Responsive</span>
+          </div>
+        </div>
+        <div class="about-visual reveal" style="--delay:.15s">
+          <div class="about-img-wrap">
+            <div class="about-img-placeholder"><span>A</span></div>
+          </div>
+          <div class="about-float-card">
+            <div class="afc-label">Location</div>
+            <div class="afc-val" style="font-size:1rem;color:var(--text)">Angeles City 🇵🇭</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS -->
+  <section class="section" style="padding-top:0">
+    <div class="section-inner">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px;flex-wrap:wrap;gap:20px">
+        <div>
+          <div class="section-label reveal">Selected Work</div>
+          <h2 class="section-heading reveal">Featured <em>Projects</em></h2>
+        </div>
+        <a href="#" class="text-link reveal" onclick="navigate('projects')">All projects →</a>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card featured reveal">
+          <div class="card-img-wrap">
+            <img src="assets/projects/hau-cover.png" alt="HAU Taekwondo Website" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>🥋</span></div>
+            <div class="card-overlay">
+              <a href="project-hau-tkd.html" class="overlay-btn">View Details</a>
+              <a href="https://adrianm16.github.io/HAUTKDwebsite/" target="_blank" class="overlay-btn overlay-btn-ghost">Live Demo ↗</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Responsive</span>
+            </div>
+            <h3 class="card-title">HAU Taekwondo Team Website</h3>
+            <p class="card-desc">A fully responsive informational website for HAU's Taekwondo team featuring semantic HTML, modern CSS layout techniques, and smooth JavaScript interactions.</p>
+            <div class="card-links">
+              <a href="project-hau-tkd.html" class="card-link">Details →</a>
+              <a href="https://adrianm16.github.io/HAUTKDwebsite/" target="_blank" class="card-link card-link-ext">Live Demo ↗</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card reveal">
+          <div class="card-img-wrap">
+            <img src="assets/projects/brew-cover.png" alt="Brew Haven" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>☕</span></div>
+            <div class="card-overlay">
+              <a href="project-brew-haven.html" class="overlay-btn">View Details</a>
+              <a href="https://adrianm16.github.io/BrewHavenCoffee/" target="_blank" class="overlay-btn overlay-btn-ghost">Live Demo ↗</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Node.js</span></div>
+            <h3 class="card-title">Brew Haven Coffee Shop</h3>
+            <p class="card-desc">Responsive coffee shop web app with dynamic menu and cart functionality. Built with Node.js and clean front-end design.</p>
+            <div class="card-links">
+              <a href="project-brew-haven.html" class="card-link">Details →</a>
+              <a href="https://adrianm16.github.io/BrewHavenCoffee/" target="_blank" class="card-link card-link-ext">Live Demo ↗</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card reveal" style="--delay:.1s">
+          <div class="card-img-wrap">
+            <img src="assets/projects/pilipinas-cover.png" alt="Pilipinas Ngayon" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>📰</span></div>
+            <div class="card-overlay">
+              <a href="project-pilipinas-ngayon.html" class="overlay-btn">View Details</a>
+              <a href="https://voiceofthenation1.wordpress.com/" target="_blank" class="overlay-btn overlay-btn-ghost">Visit ↗</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags"><span class="tag">WordPress</span><span class="tag">Elementor</span><span class="tag">UI/UX</span></div>
+            <h3 class="card-title">Pilipinas Ngayon</h3>
+            <p class="card-desc">News site built with WordPress and Elementor, organizing articles by categories with a clean accessible layout and custom CSS.</p>
+            <div class="card-links">
+              <a href="project-pilipinas-ngayon.html" class="card-link">Details →</a>
+              <a href="https://voiceofthenation1.wordpress.com/" target="_blank" class="card-link card-link-ext">Visit ↗</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS PREVIEW -->
+  <section class="section" style="padding-top:0">
+    <div class="section-inner">
+      <div class="section-label reveal">Capabilities</div>
+      <h2 class="section-heading reveal">My Tech Stack <em>&amp; Skills</em></h2>
+      <div class="skills-layout" style="margin-top:40px">
+        <div class="skill-group reveal">
+          <div class="sg-title">Front-End</div>
+          <div class="skill-bar-item"><div class="sb-top"><span>HTML5 / CSS3</span><span class="sb-pct">90%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.9"></div></div></div>
+          <div class="skill-bar-item"><div class="sb-top"><span>JavaScript (ES6+)</span><span class="sb-pct">75%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.75"></div></div></div>
+          <div class="skill-bar-item"><div class="sb-top"><span>Responsive Design</span><span class="sb-pct">88%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.88"></div></div></div>
+          <div class="skill-bar-item"><div class="sb-top"><span>WordPress / Elementor</span><span class="sb-pct">72%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.72"></div></div></div>
+        </div>
+        <div class="skill-group reveal" style="--delay:.1s">
+          <div class="sg-title">Design &amp; Tools</div>
+          <div class="skill-bar-item"><div class="sb-top"><span>Figma / UI Design</span><span class="sb-pct">78%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.78"></div></div></div>
+          <div class="skill-bar-item"><div class="sb-top"><span>Git / GitHub</span><span class="sb-pct">70%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.70"></div></div></div>
+          <div class="skill-bar-item"><div class="sb-top"><span>Canva / Visual Design</span><span class="sb-pct">85%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.85"></div></div></div>
+          <div class="skill-bar-item"><div class="sb-top"><span>Node.js (Basics)</span><span class="sb-pct">50%</span></div><div class="sb-track"><div class="sb-fill" style="--pct:.50"></div></div></div>
+        </div>
+        <div class="skill-group reveal" style="--delay:.2s">
+          <div class="sg-title">Currently Learning</div>
+          <div class="learn-item"><div class="learn-icon">⚛️</div><div><div class="learn-name">React.js</div><div class="learn-note">Component-based UI development</div></div></div>
+          <div class="learn-item"><div class="learn-icon">🐘</div><div><div class="learn-name">PHP / MySQL</div><div class="learn-note">Back-end fundamentals</div></div></div>
+          <div class="learn-item"><div class="learn-icon">☁️</div><div><div class="learn-name">Cloud & Hosting</div><div class="learn-note">Deployment & DevOps basics</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-box reveal">
+      <div>
+        <div class="status-badge" style="margin-bottom:16px"><span class="status-dot"></span>Available for Internship</div>
+        <h2 class="cta-title">Ready to work together?</h2>
+        <p class="cta-desc">I'm actively seeking OJT/internship opportunities in web development and UI/UX design. Let's build something meaningful.</p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn-primary" onclick="navigate('contact')">Get in Touch</button>
+        <button class="btn-outline" onclick="navigate('resume')">View Resume</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Adrian<span>.</span></div>
+        <p class="footer-tagline">BSIT Student & Web Developer<br/>Open for OJT / Internship 🇵🇭</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigation</div>
+        <a href="#" onclick="navigate('home')">Home</a>
+        <a href="#" onclick="navigate('about')">About</a>
+        <a href="#" onclick="navigate('projects')">Projects</a>
+        <a href="#" onclick="navigate('resume')">Resume</a>
+        <a href="#" onclick="navigate('contact')">Contact</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="https://github.com/AdrianM16" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank">LinkedIn</a>
+        <a href="mailto:adriananunciacion80@gmail.com">Email Me</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="yr1"></span> Adrian M. Anunciacion. All rights reserved.</span>
+      <span class="footer-made">Designed &amp; Built by <strong>Adrian</strong></span>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════ ABOUT PAGE ════════════════════ -->
+<div id="page-about" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label">About Me</div>
+      <h1 class="section-heading">The developer<br/>behind the <em>code</em>.</h1>
+      <p class="page-hero-subtitle">BSIT student, front-end enthusiast, and aspiring web developer on a mission to create meaningful digital experiences — one line of code at a time.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-photo-block reveal">
+          <div class="about-photo">
+            <img src="assets/img/Pp1.png" alt="Adrian" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="about-photo-placeholder" style="display:none">A</div>
+          </div>
+          <div class="quick-info">
+            <div class="info-row"><div class="info-label">Name</div><div class="info-val">Adrian M. Anunciacion</div></div>
+            <div class="info-row"><div class="info-label">Course</div><div class="info-val">BS Information Technology</div></div>
+            <div class="info-row"><div class="info-label">University</div><div class="info-val">Holy Angel University</div></div>
+            <div class="info-row"><div class="info-label">Status</div><div class="info-val status">✦ Open for OJT</div></div>
+            <div class="info-row"><div class="info-label">Email</div><div class="info-val" style="font-size:.78rem">adriananunciacion80@gmail.com</div></div>
+            <div class="info-row"><div class="info-label">Location</div><div class="info-val">Angeles City, Philippines</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="about-section reveal">
+            <h3>Who I Am</h3>
+            <p>Hi! I'm <strong>Adrian M. Anunciacion</strong>, a BS Information Technology student at Holy Angel University in Angeles City, Philippines. I'm passionate about web development and UI/UX design — I love turning ideas into clean, functional, and visually compelling web experiences.</p>
+            <p>My journey in tech started with a curiosity about how websites work, and quickly grew into a deep interest in front-end development and user interface design. I focus on writing <strong>semantic, accessible, and maintainable code</strong> while crafting interfaces that are both beautiful and user-friendly.</p>
+          </div>
+
+          <div class="about-section reveal" style="--delay:.1s">
+            <h3>My Story</h3>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-date">2023 – Present</div>
+                <div class="tl-title">BS Information Technology — Holy Angel University</div>
+                <div class="tl-desc">Studying core IT subjects with a focus on web development, databases, and software engineering. Actively building personal and academic projects to grow practical skills.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">2024</div>
+                <div class="tl-title">WordPress & Elementor Development</div>
+                <div class="tl-desc">Built Pilipinas Ngayon, a fully structured news website using WordPress CMS and Elementor with custom CSS — hands-on experience with CMS-based development and content strategy.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">2023 – 2024</div>
+                <div class="tl-title">Front-End Projects</div>
+                <div class="tl-desc">Developed multiple websites including the HAU Taekwondo Team Website and Brew Haven Coffee Shop, honing skills in HTML, CSS, JavaScript, and responsive design principles.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">Ongoing</div>
+                <div class="tl-title">UI/UX Design & Figma</div>
+                <div class="tl-desc">Learning and applying UI/UX design principles using Figma and Canva for wireframing, prototyping, and bridging the gap between design thinking and development.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-section reveal" style="--delay:.15s">
+            <h3>What Drives Me</h3>
+            <p>I believe that great websites live at the intersection of <strong>clean code</strong> and <strong>thoughtful design</strong>. I care deeply about user experience, web accessibility, and writing code that's not just functional — but also readable and maintainable for teams.</p>
+            <p>Beyond coding, I find inspiration in visual design, typography, and how small details can completely transform a user's experience. I'm actively looking for an <strong>OJT or internship opportunity</strong> where I can contribute, learn from experienced developers, and grow as a professional.</p>
+          </div>
+
+          <div class="about-section reveal" style="--delay:.2s">
+            <h3>Certificates & Achievements</h3>
+            <div class="certs-grid">
+              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/cc-rwd.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='🏆'"/></div><div><div class="cert-name">Responsive Web Design</div><div class="cert-issuer">freeCodeCamp</div></div></div>
+              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/simplilearn-uiux.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='🎨'"/></div><div><div class="cert-name">UI/UX Design Fundamentals</div><div class="cert-issuer">Simplilearn</div></div></div>
+              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/hubspot-content.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='📢'"/></div><div><div class="cert-name">Content Marketing</div><div class="cert-issuer">HubSpot Academy</div></div></div>
+              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/codegeeks-sleek.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='💻'"/></div><div><div class="cert-name">Web Development</div><div class="cert-issuer">CodeGeeks</div></div></div>
+            </div>
+          </div>
+
+          <div class="reveal" style="--delay:.25s;display:flex;gap:14px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn-primary" onclick="navigate('resume')">View My Resume</button>
+            <button class="btn-outline" onclick="navigate('contact')">Get in Touch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Adrian<span>.</span></div>
+        <p class="footer-tagline">BSIT Student & Web Developer<br/>Open for OJT / Internship 🇵🇭</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigation</div>
+        <a href="#" onclick="navigate('home')">Home</a>
+        <a href="#" onclick="navigate('about')">About</a>
+        <a href="#" onclick="navigate('projects')">Projects</a>
+        <a href="#" onclick="navigate('resume')">Resume</a>
+        <a href="#" onclick="navigate('contact')">Contact</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="https://github.com/AdrianM16" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank">LinkedIn</a>
+        <a href="mailto:adriananunciacion80@gmail.com">Email Me</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="yr2"></span> Adrian M. Anunciacion. All rights reserved.</span>
+      <span class="footer-made">Designed &amp; Built by <strong>Adrian</strong></span>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════ PROJECTS PAGE ════════════════════ -->
+<div id="page-projects" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label">Selected Work</div>
+      <h1 class="section-heading">Projects I've <em>built</em> &amp; shipped.</h1>
+      <p class="page-hero-subtitle">Real-world web projects showcasing front-end development, UI/UX design, and CMS skills — built with care and attention to detail.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="section-inner">
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="html">HTML/CSS/JS</button>
+        <button class="filter-btn" data-filter="wordpress">WordPress</button>
+        <button class="filter-btn" data-filter="uiux">UI/UX</button>
+      </div>
+
+      <div class="projects-full-grid">
+        <article class="project-card project-card-lg reveal" data-tags="html">
+          <div class="card-img-wrap">
+            <img src="assets/projects/hau-cover.png" alt="HAU Taekwondo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>🥋</span></div>
+            <div class="card-overlay">
+              <a href="project-hau-tkd.html" class="overlay-btn">View Details</a>
+              <a href="https://adrianm16.github.io/HAUTKDwebsite/" target="_blank" class="overlay-btn overlay-btn-ghost">Live Demo ↗</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">Responsive</span></div>
+            <h3 class="card-title">HAU Taekwondo Team Website</h3>
+            <p class="card-desc">A fully responsive informational website for Holy Angel University's Taekwondo team. Features semantic HTML structure, modern CSS layout techniques, smooth JavaScript interactions, clear training category navigation, and accessible media content. Built with pure front-end technologies without any framework.</p>
+            <div class="card-links">
+              <a href="project-hau-tkd.html" class="card-link">View Full Details →</a>
+              <a href="https://adrianm16.github.io/HAUTKDwebsite/" target="_blank" class="card-link card-link-ext">Live Demo ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-tags="html">
+          <div class="card-img-wrap">
+            <img src="assets/projects/brew-cover.png" alt="Brew Haven" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>☕</span></div>
+            <div class="card-overlay">
+              <a href="project-brew-haven.html" class="overlay-btn">View Details</a>
+              <a href="https://adrianm16.github.io/BrewHavenCoffee/" target="_blank" class="overlay-btn overlay-btn-ghost">Live Demo ↗</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Node.js</span></div>
+            <h3 class="card-title">Brew Haven Coffee Shop</h3>
+            <p class="card-desc">A responsive coffee shop web application with a dynamic menu display and cart functionality. Demonstrates front-end design skills combined with basic Node.js backend integration.</p>
+            <div class="card-links">
+              <a href="project-brew-haven.html" class="card-link">Details →</a>
+              <a href="https://adrianm16.github.io/BrewHavenCoffee/" target="_blank" class="card-link card-link-ext">Live Demo ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" style="--delay:.1s" data-tags="wordpress uiux">
+          <div class="card-img-wrap">
+            <img src="assets/projects/pilipinas-cover.png" alt="Pilipinas Ngayon" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>📰</span></div>
+            <div class="card-overlay">
+              <a href="project-pilipinas-ngayon.html" class="overlay-btn">View Details</a>
+              <a href="https://voiceofthenation1.wordpress.com/" target="_blank" class="overlay-btn overlay-btn-ghost">Visit Site ↗</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags"><span class="tag">WordPress</span><span class="tag">Elementor</span><span class="tag">UI/UX</span><span class="tag">CMS</span></div>
+            <h3 class="card-title">Pilipinas Ngayon</h3>
+            <p class="card-desc">A WordPress-based news site organizing Philippine content by categories. Built with Elementor and enhanced with custom CSS for a clean, readable, and accessible news layout.</p>
+            <div class="card-links">
+              <a href="project-pilipinas-ngayon.html" class="card-link">Details →</a>
+              <a href="https://voiceofthenation1.wordpress.com/" target="_blank" class="card-link card-link-ext">Visit Site ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" style="--delay:.15s" data-tags="html uiux">
+          <div class="card-img-wrap">
+            <img src="assets/projects/koma-cover.png" alt="KOMA Clothing" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="card-img-placeholder" style="display:none"><span>👕</span></div>
+            <div class="card-overlay">
+              <a href="project-koma-clothing.html" class="overlay-btn">View Details</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">UI Design</span><span class="tag">Branding</span></div>
+            <h3 class="card-title">KOMA Clothing Brand</h3>
+            <p class="card-desc">A sleek e-commerce-style website concept for a clothing brand. Focused on strong visual branding, minimal UI aesthetics, product showcase grid layout, and a cohesive design system.</p>
+            <div class="card-links">
+              <a href="project-koma-clothing.html" class="card-link">Details →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-box reveal">
+      <div>
+        <div class="status-badge" style="margin-bottom:16px"><span class="status-dot"></span>Open for Collaboration</div>
+        <h2 class="cta-title">Interested in working together?</h2>
+        <p class="cta-desc">I'm actively looking for OJT/internship opportunities and always open to working on meaningful projects.</p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn-primary" onclick="navigate('contact')">Start a Conversation</button>
+        <button class="btn-outline" onclick="navigate('resume')">View Resume</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="footer-logo">Adrian<span>.</span></div><p class="footer-tagline">BSIT Student & Web Developer<br/>Open for OJT / Internship 🇵🇭</p></div>
+      <div class="footer-col"><div class="footer-col-title">Navigation</div><a href="#" onclick="navigate('home')">Home</a><a href="#" onclick="navigate('about')">About</a><a href="#" onclick="navigate('projects')">Projects</a><a href="#" onclick="navigate('resume')">Resume</a><a href="#" onclick="navigate('contact')">Contact</a></div>
+      <div class="footer-col"><div class="footer-col-title">Connect</div><a href="https://github.com/AdrianM16" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank">LinkedIn</a><a href="mailto:adriananunciacion80@gmail.com">Email Me</a></div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="yr3"></span> Adrian M. Anunciacion. All rights reserved.</span><span class="footer-made">Designed &amp; Built by <strong>Adrian</strong></span></div>
+  </footer>
+</div>
+
+<!-- ════════════════════ RESUME PAGE ════════════════════ -->
+<div id="page-resume" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label">Resume</div>
+      <h1 class="section-heading">Skills, education,<br/>&amp; <em>experience</em>.</h1>
+      <p class="page-hero-subtitle">A snapshot of my technical skills, academic background, and the projects that shaped me as a developer.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="section-inner">
+      <div class="resume-layout">
+        <div>
+          <div class="resume-section reveal">
+            <h3>Education</h3>
+            <div class="exp-item">
+              <div class="exp-title">BS Information Technology</div>
+              <div class="exp-meta">Holy Angel University · Angeles City, Pampanga · 2023 – Present</div>
+              <div class="exp-desc">Studying core IT subjects with emphasis on web development, databases, software engineering, and systems analysis. Actively building projects and growing practical, industry-relevant skills.</div>
+            </div>
+          </div>
+
+          <div class="resume-section reveal" style="--delay:.1s">
+            <h3>Projects</h3>
+            <div class="exp-item">
+              <div class="exp-title">HAU Taekwondo Team Website</div>
+              <div class="exp-meta">HTML · CSS · JavaScript · 2023–2024</div>
+              <div class="exp-desc">Fully responsive informational website for HAU's Taekwondo team with semantic HTML, modern CSS layouts, and smooth JavaScript interactions.</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-title">Brew Haven Coffee Shop</div>
+              <div class="exp-meta">HTML · CSS · JavaScript · Node.js · 2024</div>
+              <div class="exp-desc">Responsive coffee shop web app with dynamic menu display and cart functionality using Node.js for backend data handling.</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-title">Pilipinas Ngayon — News Website</div>
+              <div class="exp-meta">WordPress · Elementor · Custom CSS · 2024</div>
+              <div class="exp-desc">WordPress-based news site with organized categories, Elementor layouts, and custom CSS for clean, accessible presentation.</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-title">KOMA Clothing Brand</div>
+              <div class="exp-meta">HTML · CSS · UI/UX Design · 2024</div>
+              <div class="exp-desc">E-commerce-style website concept with strong visual branding, minimal UI aesthetics, and cohesive product showcase design.</div>
+            </div>
+          </div>
+
+          <div class="resume-section reveal" style="--delay:.15s">
+            <h3>Certificates</h3>
+            <div class="exp-item">
+              <div class="exp-title">Responsive Web Design Certification</div>
+              <div class="exp-meta">freeCodeCamp</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-title">UI/UX Design Fundamentals</div>
+              <div class="exp-meta">Simplilearn</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-title">Content Marketing Certification</div>
+              <div class="exp-meta">HubSpot Academy</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-title">Web Development Certificate</div>
+              <div class="exp-meta">CodeGeeks</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resume-sidebar">
+          <div class="section-box reveal">
+            <div class="sbox-title">Contact</div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>adriananunciacion80@gmail.com</span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Angeles City, Philippines</span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              <span>github.com/AdrianM16</span>
+            </div>
+          </div>
+
+          <div class="section-box reveal" style="--delay:.1s">
+            <div class="sbox-title">Technical Skills</div>
+            <div class="skills-pill-group">
+              <div class="skills-pill-label">Front-End</div>
+              <div class="skills-pills">
+                <span class="skills-pill">HTML5</span><span class="skills-pill">CSS3</span><span class="skills-pill">JavaScript</span><span class="skills-pill">Responsive</span>
+              </div>
+            </div>
+            <div class="skills-pill-group">
+              <div class="skills-pill-label">Tools & Design</div>
+              <div class="skills-pills">
+                <span class="skills-pill">Figma</span><span class="skills-pill">Git</span><span class="skills-pill">GitHub</span><span class="skills-pill">Canva</span>
+              </div>
+            </div>
+            <div class="skills-pill-group">
+              <div class="skills-pill-label">CMS & Back-End</div>
+              <div class="skills-pills">
+                <span class="skills-pill">WordPress</span><span class="skills-pill">Elementor</span><span class="skills-pill">Node.js</span>
+              </div>
+            </div>
+            <div class="skills-pill-group">
+              <div class="skills-pill-label">Learning</div>
+              <div class="skills-pills">
+                <span class="skills-pill">React.js</span><span class="skills-pill">PHP</span><span class="skills-pill">MySQL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-box reveal" style="--delay:.15s">
+            <div class="sbox-title">Soft Skills</div>
+            <div class="skills-pills" style="flex-direction:column;gap:8px">
+              <span class="skills-pill" style="text-align:center">Attention to Detail</span>
+              <span class="skills-pill" style="text-align:center">Problem Solving</span>
+              <span class="skills-pill" style="text-align:center">Time Management</span>
+              <span class="skills-pill" style="text-align:center">Teamwork & Collaboration</span>
+              <span class="skills-pill" style="text-align:center">Continuous Learning</span>
+            </div>
+          </div>
+
+          <div class="reveal" style="--delay:.2s">
+            <a href="assets/Adrian_Anunciacion_Resume_and_CoverLetter.pdf" download class="download-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Resume PDF
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="footer-logo">Adrian<span>.</span></div><p class="footer-tagline">BSIT Student & Web Developer<br/>Open for OJT / Internship 🇵🇭</p></div>
+      <div class="footer-col"><div class="footer-col-title">Navigation</div><a href="#" onclick="navigate('home')">Home</a><a href="#" onclick="navigate('about')">About</a><a href="#" onclick="navigate('projects')">Projects</a><a href="#" onclick="navigate('resume')">Resume</a><a href="#" onclick="navigate('contact')">Contact</a></div>
+      <div class="footer-col"><div class="footer-col-title">Connect</div><a href="https://github.com/AdrianM16" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank">LinkedIn</a><a href="mailto:adriananunciacion80@gmail.com">Email Me</a></div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="yr4"></span> Adrian M. Anunciacion. All rights reserved.</span><span class="footer-made">Designed &amp; Built by <strong>Adrian</strong></span></div>
+  </footer>
+</div>
+
+<!-- ════════════════════ CONTACT PAGE ════════════════════ -->
+<div id="page-contact" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label">Get in Touch</div>
+      <h1 class="section-heading">Let's work<br/><em>together</em>.</h1>
+      <p class="page-hero-subtitle">Whether you're a company looking for an OJT intern, a collaborator with a project idea, or just want to say hello — I'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="section-inner">
+      <div class="contact-layout">
+        <div>
+          <p class="contact-intro">
+            I'm currently a BSIT student at Holy Angel University actively seeking <strong>OJT or internship opportunities</strong> in web development, front-end engineering, or UI/UX design. I'm also open to freelance collaborations and student projects.
+          </p>
+          <div class="contact-methods">
+            <a href="mailto:adriananunciacion80@gmail.com" class="contact-method reveal">
+              <div class="cm-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+              </div>
+              <div><div class="cm-label">Email</div><div class="cm-value">adriananunciacion80@gmail.com</div></div>
+            </a>
+            <a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank" class="contact-method reveal" style="--delay:.05s">
+              <div class="cm-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </div>
+              <div><div class="cm-label">LinkedIn</div><div class="cm-value">Adrian M. Anunciacion</div></div>
+            </a>
+            <a href="https://github.com/AdrianM16" target="_blank" class="contact-method reveal" style="--delay:.1s">
+              <div class="cm-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              </div>
+              <div><div class="cm-label">GitHub</div><div class="cm-value">github.com/AdrianM16</div></div>
+            </a>
+            <div class="contact-method reveal" style="--delay:.15s">
+              <div class="cm-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div><div class="cm-label">Location</div><div class="cm-value">Angeles City, Philippines</div></div>
+            </div>
+          </div>
+          <div class="response-note reveal" style="--delay:.2s">
+            <div class="rn-label">Response Time</div>
+            <p class="rn-text">I typically respond within <strong>24–48 hours</strong>. For urgent inquiries, email is the fastest way to reach me.</p>
+          </div>
+        </div>
+
+        <div class="reveal" style="--delay:.1s">
+          <div class="form-card">
+            <div class="form-title">Send a Message</div>
+            <p class="form-subtitle">Fill in the details below and I'll get back to you.</p>
+            <form action="https://formspree.io/f/mgollnrw" method="POST" id="contact-form">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="name">Your Name</label>
+                  <input type="text" id="name" name="name" placeholder="Juan dela Cruz" required/>
+                </div>
+                <div class="form-field">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" placeholder="you@example.com" required/>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="OJT Opportunity / Project Collaboration" required/>
+              </div>
+              <div class="form-field">
+                <label for="company">Company / Organization (optional)</label>
+                <input type="text" id="company" name="company" placeholder="Your company name"/>
+              </div>
+              <div class="form-field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tell me about the opportunity or what you have in mind..." required></textarea>
+              </div>
+              <input type="hidden" name="_subject" value="New message from Portfolio — Adrian Anunciacion"/>
+              <button type="submit" class="form-submit">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+                Send Message
+              </button>
+              <p class="form-note">Messages are sent securely. No spam, ever.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="footer-logo">Adrian<span>.</span></div><p class="footer-tagline">BSIT Student & Web Developer<br/>Open for OJT / Internship 🇵🇭</p></div>
+      <div class="footer-col"><div class="footer-col-title">Navigation</div><a href="#" onclick="navigate('home')">Home</a><a href="#" onclick="navigate('about')">About</a><a href="#" onclick="navigate('projects')">Projects</a><a href="#" onclick="navigate('resume')">Resume</a><a href="#" onclick="navigate('contact')">Contact</a></div>
+      <div class="footer-col"><div class="footer-col-title">Connect</div><a href="https://github.com/AdrianM16" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank">LinkedIn</a><a href="mailto:adriananunciacion80@gmail.com">Email Me</a></div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="yr5"></span> Adrian M. Anunciacion. All rights reserved.</span><span class="footer-made">Designed &amp; Built by <strong>Adrian</strong></span></div>
+  </footer>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" title="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+// ─── CURSOR ───────────────────────────────────────────────
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  curRing.style.left=rx+'px';curRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+// ─── NAVBAR SCROLL ────────────────────────────────────────
+const navbar=document.getElementById('navbar');
+const progress=document.getElementById('scroll-progress');
+const btt=document.getElementById('back-to-top');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>60){navbar.classList.add('scrolled')}else{navbar.classList.remove('scrolled')}
+  const h=document.documentElement;
+  const pct=(window.scrollY/(h.scrollHeight-h.clientHeight))*100;
+  progress.style.width=pct+'%';
+  if(window.scrollY>300){btt.classList.add('visible')}else{btt.classList.remove('visible')}
+},{ passive:true });
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ─── HAMBURGER ────────────────────────────────────────────
+const ham=document.getElementById('hamburger');
+const mob=document.getElementById('mob-menu');
+ham.addEventListener('click',()=>{
+  ham.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+function closeMob(){ham.classList.remove('open');mob.classList.remove('open')}
+
+// ─── PAGE NAVIGATION ──────────────────────────────────────
+function navigate(page){
+  event&&event.preventDefault&&event.preventDefault();
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(a=>{
+    a.classList.toggle('active',a.dataset.page===page);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{initReveal();animateBars()},100);
+}
+
+// ─── SCROLL REVEAL ────────────────────────────────────────
+function initReveal(){
+  const els=document.querySelectorAll('.reveal:not(.visible)');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const delay=e.target.style.getPropertyValue('--delay')||'0s';
+        e.target.style.transitionDelay=delay;
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12});
+  els.forEach(el=>obs.observe(el));
+}
+
+// ─── SKILL BAR ANIMATION ──────────────────────────────────
+function animateBars(){
+  const bars=document.querySelectorAll('.sb-fill:not(.animated)');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('animated');
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.5});
+  bars.forEach(b=>obs.observe(b));
+}
+
+// ─── TYPEWRITER ───────────────────────────────────────────
+const words=['Web Developer','UI/UX Designer','Front-End Dev','Creative Coder'];
+let wi=0,ci=0,deleting=false,tw=document.getElementById('typewriter');
+function typeLoop(){
+  const w=words[wi];
+  if(!deleting){
+    tw.textContent=w.slice(0,++ci);
+    if(ci===w.length){deleting=true;setTimeout(typeLoop,2000);return}
+  }else{
+    tw.textContent=w.slice(0,--ci);
+    if(ci===0){deleting=false;wi=(wi+1)%words.length;setTimeout(typeLoop,400);return}
+  }
+  setTimeout(typeLoop,deleting?60:110);
+}
+typeLoop();
+
+// ─── PROJECT FILTER ───────────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('[data-tags]').forEach(card=>{
+      const tags=card.dataset.tags||'';
+      card.style.display=(f==='all'||tags.includes(f))?'':'none';
+    });
+  });
+});
+
+// ─── YEAR ─────────────────────────────────────────────────
+const y=new Date().getFullYear();
+['yr1','yr2','yr3','yr4','yr5'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.textContent=y;
+});
+
+// ─── INIT ─────────────────────────────────────────────────
+initReveal();
+animateBars();
+</script>
+</body>
+</html>
