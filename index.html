@@ -655,7 +655,7 @@ body::before{
   .form-card{padding:24px}
 }
 
-/* KEEP ORIGINAL STYLE */
+/* ─── ABOUT IMAGE SLIDER ───────────────────────────── */
 
 .about-img-wrap{
   position: relative;
@@ -686,7 +686,7 @@ body::before{
   display: block;
 }
 
-/* RESPONSIVE WITHOUT CHANGING DESIGN */
+/* ─── RESPONSIVE FIXES ─────────────────────────────── */
 
 @media (max-width:768px){
 
@@ -705,6 +705,7 @@ body::before{
   }
 
 }
+
 </style>
 </head>
 <body>
@@ -860,6 +861,7 @@ body::before{
             <span class="chip">Responsive</span>
           </div>
         </div>
+
         <div class="about-visual reveal" style="--delay:.15s">
 
           <div class="about-img-wrap">
@@ -1650,6 +1652,7 @@ const y=new Date().getFullYear();
 initReveal();
 animateBars();
 
+// ─── ABOUT IMAGE SLIDER ─────────────────────────
 const slides = document.querySelectorAll('.slide');
 
 let currentSlide = 0;
@@ -1664,6 +1667,7 @@ function showSlide(index){
 
 }
 
+// ─── AUTO SLIDE ──────────────────────────────────────
 setInterval(() => {
 
   currentSlide++;
@@ -1675,6 +1679,7 @@ setInterval(() => {
   showSlide(currentSlide);
 
 }, 3000);
+
 </script>
 </body>
 </html>
