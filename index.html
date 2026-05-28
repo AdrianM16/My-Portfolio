@@ -52,13 +52,13 @@ a{color:inherit;text-decoration:none}
 /* CUSTOM CURSOR */
 #cur{
   position:fixed;width:10px;height:10px;border-radius:50%;
-  background:var(--accent);pointer-events:none;z-index:9999;
+  background:var(--accent);pointer-events:none;z-index:100001;
   transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;
   mix-blend-mode:screen;
 }
 #cur-ring{
   position:fixed;width:36px;height:36px;border-radius:50%;
-  border:1px solid rgba(200,169,126,0.4);pointer-events:none;z-index:9998;
+  border:1px solid rgba(200,169,126,0.4);pointer-events:none;z-index:100000;
   transform:translate(-50%,-50%);transition:transform .08s linear,width .3s var(--ease),height .3s var(--ease),border-color .3s;
 }
 body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px}
@@ -890,21 +890,116 @@ body::before{
 
 /* CERTIFICATES */
 .certs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:540px){.certs-grid{grid-template-columns:1fr}}
 .cert-card{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
   padding:14px;display:flex;align-items:center;gap:12px;
-  transition:border-color .2s;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:border-color .25s,transform .25s var(--ease),box-shadow .25s,background .25s;
 }
-.cert-card:hover{border-color:var(--border2)}
+.cert-card::after{
+  content:'🔍';position:absolute;top:8px;right:10px;
+  font-size:.65rem;opacity:0;
+  background:rgba(200,169,126,0.15);border:1px solid rgba(200,169,126,0.3);
+  color:var(--accent);padding:2px 7px;border-radius:100px;
+  font-family:var(--sans);font-style:normal;font-size:.65rem;letter-spacing:.04em;
+  content:'View';
+  transition:opacity .2s;
+}
+.cert-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(200,169,126,0.12);
+  background:rgba(200,169,126,0.05);
+}
+.cert-card:hover::after{opacity:1}
+.cert-card:active{transform:translateY(-1px) scale(0.99)}
 .cert-thumb{
-  width:48px;height:36px;border-radius:6px;overflow:hidden;
+  width:56px;height:42px;border-radius:6px;overflow:hidden;
   background:var(--bg3);flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   font-size:1.2rem;
+  border:1px solid var(--border);
+  transition:border-color .25s;
 }
+.cert-card:hover .cert-thumb{border-color:rgba(200,169,126,0.3)}
 .cert-thumb img{width:100%;height:100%;object-fit:cover}
 .cert-name{font-size:.82rem;font-weight:500;margin-bottom:2px}
 .cert-issuer{font-size:.72rem;color:var(--text3);font-family:var(--mono)}
+.cert-date{font-size:.66rem;color:var(--text3);font-family:var(--mono);margin-top:3px;opacity:.7}
+
+/* ── CERT LIGHTBOX MODAL ───────────────────────────────────── */
+.cert-lightbox{
+  position:fixed;inset:0;z-index:10000;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  background:rgba(8,8,16,0);
+  backdrop-filter:blur(0px);
+  pointer-events:none;
+  transition:background .3s,backdrop-filter .3s;
+}
+.cert-lightbox.open{
+  background:rgba(8,8,16,0.88);
+  backdrop-filter:blur(16px);
+  pointer-events:all;
+}
+.cert-lightbox-inner{
+  max-width:800px;width:100%;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--r2);
+  overflow:hidden;
+  position:relative;
+  transform:scale(0.88) translateY(20px);
+  opacity:0;
+  transition:transform .35s var(--ease-out),opacity .35s;
+  box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(200,169,126,0.08);
+}
+.cert-lightbox.open .cert-lightbox-inner{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+.cert-lightbox-header{
+  padding:18px 20px 14px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.cert-lightbox-meta{display:flex;flex-direction:column;gap:2px}
+.cert-lightbox-name{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--text)}
+.cert-lightbox-issuer{font-size:.75rem;color:var(--accent);font-family:var(--mono);letter-spacing:.06em}
+.cert-lightbox-close{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--border2);background:transparent;
+  color:var(--text2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color .2s,color .2s,background .2s;
+  font-size:1rem;line-height:1;
+}
+.cert-lightbox-close:hover{border-color:var(--accent);color:var(--accent);background:rgba(200,169,126,0.08)}
+.cert-lightbox-img-wrap{
+  width:100%;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  min-height:200px;max-height:60vh;overflow:hidden;
+  position:relative;
+}
+.cert-lightbox-img-wrap img{
+  width:100%;height:100%;object-fit:contain;
+  max-height:60vh;display:block;
+}
+.cert-lightbox-placeholder{
+  font-size:4rem;padding:60px;
+  display:flex;align-items:center;justify-content:center;
+}
+.cert-lightbox-footer{
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--border);
+}
+.cert-lightbox-hint{font-size:.72rem;color:var(--text3);font-family:var(--mono)}
+@media(max-width:600px){
+  .cert-lightbox-inner{border-radius:var(--r)}
+  .cert-lightbox-img-wrap{max-height:50vh}
+}
 
 /* ===== PROJECTS PAGE ===== */
 .projects-full-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
@@ -1218,7 +1313,7 @@ body::before{
             </div>
 
             <div class="cs">
-              <div class="cs-num">4+</div>
+              <div class="cs-num">12</div>
               <div class="cs-lab">Certificates</div>
             </div>
 
@@ -1550,10 +1645,18 @@ body::before{
           <div class="about-section reveal" style="--delay:.2s">
             <h3>Certificates & Achievements</h3>
             <div class="certs-grid">
-              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/cc-rwd.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='🏆'"/></div><div><div class="cert-name">Responsive Web Design</div><div class="cert-issuer">freeCodeCamp</div></div></div>
-              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/simplilearn-uiux.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='🎨'"/></div><div><div class="cert-name">UI/UX Design Fundamentals</div><div class="cert-issuer">Simplilearn</div></div></div>
-              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/hubspot-content.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='📢'"/></div><div><div class="cert-name">Content Marketing</div><div class="cert-issuer">HubSpot Academy</div></div></div>
-              <div class="cert-card"><div class="cert-thumb"><img src="assets/certificates/thumbs/codegeeks-sleek.png" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='💻'"/></div><div><div class="cert-name">Web Development</div><div class="cert-issuer">CodeGeeks</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Responsive Web Design certificate" data-full="assets/certificates/cc-rwd1.PNG" data-name="Responsive Web Design" data-issuer="freeCodeCamp" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/responsive.png" alt="Responsive Web Design" onerror="this.style.display='none';this.parentElement.innerHTML='🏆'"/></div><div><div class="cert-name">Responsive Web Design</div><div class="cert-issuer">freeCodeCamp</div><div class="cert-date">Sep 1, 2024</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Digital Marketing certificate" data-full="assets/certificates/digimarketing1.png" data-name="Digital Marketing" data-issuer="HubSpot Academy" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/digimarketing.png" alt="Digital Marketing" onerror="this.style.display='none';this.parentElement.innerHTML='📈'"/></div><div><div class="cert-name">Digital Marketing</div><div class="cert-issuer">HubSpot Academy</div><div class="cert-date">Jul 25, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Back-End Development & APIs certificate" data-full="assets/certificates/backend1.png" data-name="Back-End Development & APIs" data-issuer="freeCodeCamp" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/backend.png" alt="Back-End Development & APIs" onerror="this.style.display='none';this.parentElement.innerHTML='⚙️'"/></div><div><div class="cert-name">Back-End Development & APIs</div><div class="cert-issuer">freeCodeCamp</div><div class="cert-date">Aug 27, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Introduction to Graphic Design / UI UX certificate" data-full="assets/certificates/simplilearn-uiux1.png" data-name="Intro to Graphic Design / UI·UX" data-issuer="Simplilearn" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/simplilearn-uiux.png" alt="Intro to Graphic Design / UI UX" onerror="this.style.display='none';this.parentElement.innerHTML='🎨'"/></div><div><div class="cert-name">Intro to Graphic Design / UI·UX</div><div class="cert-issuer">Simplilearn</div><div class="cert-date">Aug 27, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Website UI/UX Designing using ChatGPT certificate" data-full="assets/certificates/uiux1.png" data-name="Website UI/UX Designing using ChatGPT" data-issuer="Simplilearn" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/uiux.png" alt="Website UI/UX Designing using ChatGPT" onerror="this.style.display='none';this.parentElement.innerHTML='🖥️'"/></div><div><div class="cert-name">UI/UX Designing using ChatGPT</div><div class="cert-issuer">Simplilearn</div><div class="cert-date">Aug 27, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Content Marketing certificate" data-full="assets/certificates/contmarketing1.png" data-name="Content Marketing" data-issuer="HubSpot Academy" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/contmarkerting.png" alt="Content Marketing" onerror="this.style.display='none';this.parentElement.innerHTML='📝'"/></div><div><div class="cert-name">Content Marketing</div><div class="cert-issuer">HubSpot Academy</div><div class="cert-date">Aug 27, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Sleek and Swift Tailwind Workshop certificate" data-full="" data-name="Sleek & Swift: Tailwind & Shadcn/UI Workshop" data-issuer="CodeGeeks" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/codegeeks-sleek.png" alt="Sleek & Swift Workshop" onerror="this.style.display='none';this.parentElement.innerHTML='💻'"/></div><div><div class="cert-name">Sleek & Swift: Tailwind Workshop</div><div class="cert-issuer">CodeGeeks</div><div class="cert-date">Aug 13, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View JavaScript Algorithms and Data Structures certificate" data-full="assets/certificates/javascript1.png" data-name="JavaScript Algorithms & Data Structures" data-issuer="freeCodeCamp" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/javascript.png" alt="JavaScript Algorithms & Data Structures" onerror="this.style.display='none';this.parentElement.innerHTML='📜'"/></div><div><div class="cert-name">JavaScript Algorithms & Data Structures</div><div class="cert-issuer">freeCodeCamp</div><div class="cert-date">Sep 20, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View Digital Advertising certificate" data-full="assets/certificates/digitalads.png" data-name="Digital Advertising" data-issuer="HubSpot Academy" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/digiads.png" alt="Digital Advertising" onerror="this.style.display='none';this.parentElement.innerHTML='📢'"/></div><div><div class="cert-name">Digital Advertising</div><div class="cert-issuer">HubSpot Academy</div><div class="cert-date">Oct 4, 2025</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View SEO certificate" data-full="assets/certificates/seo1.png" data-name="SEO Certified" data-issuer="HubSpot Academy" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/seo.png" alt="SEO Certified" onerror="this.style.display='none';this.parentElement.innerHTML='🔍'"/></div><div><div class="cert-name">SEO Certified</div><div class="cert-issuer">HubSpot Academy</div><div class="cert-date">Jan 6, 2026</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View HubSpot SEO II certificate" data-full="assets/certificates/seo2.1.png" data-name="HubSpot SEO II Certified" data-issuer="HubSpot Academy" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/seo2.png" alt="HubSpot SEO II" onerror="this.style.display='none';this.parentElement.innerHTML='🔎'"/></div><div><div class="cert-name">HubSpot SEO II Certified</div><div class="cert-issuer">HubSpot Academy</div><div class="cert-date">Jan 23, 2026</div></div></div>
+              <div class="cert-card" role="button" tabindex="0" aria-label="View AWS Cloud Foundations certificate" data-full="assets/certificates/aws1.png" data-name="AWS Cloud Foundations" data-issuer="AWS Academy" onclick="openCertLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openCertLightbox(this)"><div class="cert-thumb"><img src="assets/certificates/thumbs/aws.png" alt="AWS Cloud Foundations" onerror="this.style.display='none';this.parentElement.innerHTML='☁️'"/></div><div><div class="cert-name">AWS Cloud Foundations</div><div class="cert-issuer">AWS Academy</div><div class="cert-date">Mar 12, 2026</div></div></div>
             </div>
           </div>
 
@@ -1996,6 +2099,25 @@ body::before{
   <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 
+<!-- ── CERTIFICATE LIGHTBOX ─────────────────────────────── -->
+<div id="cert-lightbox" class="cert-lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+  <div class="cert-lightbox-inner">
+    <div class="cert-lightbox-header">
+      <div class="cert-lightbox-meta">
+        <div class="cert-lightbox-name" id="lb-name"></div>
+        <div class="cert-lightbox-issuer" id="lb-issuer"></div>
+      </div>
+      <button class="cert-lightbox-close" onclick="closeCertLightbox()" aria-label="Close">✕</button>
+    </div>
+    <div class="cert-lightbox-img-wrap" id="lb-img-wrap">
+      <div class="cert-lightbox-placeholder" id="lb-placeholder"></div>
+    </div>
+    <div class="cert-lightbox-footer">
+      <span class="cert-lightbox-hint">Press <kbd style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-family:var(--mono);font-size:.68rem">Esc</kbd> to close</span>
+    </div>
+  </div>
+</div>
+
 <script>
 // ─── CURSOR ───────────────────────────────────────────────
 const cur = document.getElementById('cur');
@@ -2115,6 +2237,48 @@ const y=new Date().getFullYear();
 // ─── INIT ─────────────────────────────────────────────────
 initReveal();
 animateBars();
+
+// ─── CERT LIGHTBOX ────────────────────────────────────────
+function openCertLightbox(card){
+  const lb = document.getElementById('cert-lightbox');
+  const name = card.dataset.name || '';
+  const issuer = card.dataset.issuer || '';
+  const full = card.dataset.full || '';
+  document.getElementById('lb-name').textContent = name;
+  document.getElementById('lb-issuer').textContent = issuer;
+  const wrap = document.getElementById('lb-img-wrap');
+  const ph = document.getElementById('lb-placeholder');
+  // Remove old img if any
+  const oldImg = wrap.querySelector('img');
+  if(oldImg) oldImg.remove();
+  if(full){
+    ph.style.display='none';
+    const img = document.createElement('img');
+    img.alt = name + ' certificate';
+    img.style.opacity='0';img.style.transition='opacity .3s';
+    img.onload=()=>{img.style.opacity='1'};
+    img.onerror=()=>{
+      img.remove();
+      const emoji = {freeCodeCamp:'🏆',Simplilearn:'🎨','HubSpot Academy':'📢',CodeGeeks:'💻'}[issuer]||'📜';
+      ph.textContent=emoji;ph.style.display='flex';
+    };
+    img.src=full;
+    wrap.insertBefore(img,ph);
+  } else {
+    const emoji = {freeCodeCamp:'🏆',Simplilearn:'🎨','HubSpot Academy':'📢',CodeGeeks:'💻'}[issuer]||'📜';
+    ph.textContent=emoji;ph.style.display='flex';
+  }
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+  // Close on backdrop click
+  lb.onclick=function(e){if(e.target===lb)closeCertLightbox()};
+}
+function closeCertLightbox(){
+  const lb=document.getElementById('cert-lightbox');
+  lb.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCertLightbox()});
 
 // ─── ABOUT IMAGE SLIDER ─────────────────────────
 const slides = document.querySelectorAll('.slide');
