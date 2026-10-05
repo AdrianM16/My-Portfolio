@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adrian Anunciacion Portfolio</title>
+<!-- Adrian Anunciacion: web developer and IT support, Pampanga -->
+<meta name="description" content="Adrian M. Anunciacion, web developer and IT support from Pampanga, Philippines. Open to work. Projects, experience, certificates and resume.">
+<meta property="og:title" content="Adrian Anunciacion Portfolio">
+<meta property="og:description" content="Web developer and IT support from Pampanga. Open to work.">
+<meta property="og:image" content="assets/img/adrian.jpg">
+<link rel="icon" href="assets/img/logo.png">
+<script>
+  // set the theme before the page paints so there is no flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    var d = document.documentElement;
+    if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    // "js" turns on the scroll animations, "loading" holds the hero until the intro finishes
+    d.classList.add('js', 'loading');
+    setTimeout(function () { d.classList.remove('loading'); }, 9000); // safety net
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#work">Skip to my work</a>
+<!-- INTRO: quick name-and-counter screen. Speed is INTRO_SECONDS in js/main.js -->
+<div class="loader" id="loader" role="region" aria-label="Intro">
+  <p class="loader-name" id="loader-name" aria-label="Adrian Anunciacion"></p>
+  <div class="loader-foot">
+    <button type="button" id="skip">Tap anywhere to enter</button>
+    <span id="load-n" aria-hidden="true">0</span>
+  </div>
+</div>
+<noscript><style>.loader { display: none; }</style></noscript>
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+<div class="belt" id="belt" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Adrian Anunciacion, back to top">
+    <img src="assets/img/logo.png" alt="" width="34" height="27">
+    <span>Adrian A.</span>
+  </a>
+  <nav class="links" id="links" aria-label="Sections">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#background">Background</a>
+    <a href="#skills">Skills</a>
+    <a href="#certificates">Certificates</a>
+    <a href="#resume">Resume</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-tools">
+    <button class="theme" id="theme" type="button" aria-label="Switch between light and dark mode"><span></span></button>
+    <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="links"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===== HERO: name, typed roles, intro line, buttons, stats, photo ===== -->
+<section class="hero" id="hero">
+  <div class="hero-text">
+    <p class="hello">Hi, I'm</p>
+    <h1 class="name"><span><b>Adrian</b></span><span><b>Anunciacion</b></span></h1>
+    <p class="role">I'm a <span id="typed" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span><span class="sr">web developer, UI designer, IT support and taekwondo player</span></p>
+    <p class="lede">I build responsive websites and keep computers running. Based in Pampanga, Philippines.</p>
+    <p class="status"><span class="dot"></span>Open to work: web development, IT support and other IT roles.</p>
+    <div class="cta">
+      <a class="btn solid" href="#work">See my work</a>
+      <a class="btn" href="assets/Adrian_Anunciacion_Resume.pdf" download>Download resume</a>
+    </div>
+    <dl class="stats" id="stats">
+      <div><dd data-count="4">4</dd><dt>live projects</dt></div>
+      <div><dd data-count="14" id="cert-count">14</dd><dt>certificates</dt></div>
+      <div><dd data-count="4">4</dd><dt>years in IT</dt></div>
+    </dl>
+    <ul class="socials">
+      <li><a href="https://github.com/AdrianM16" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="mailto:adriananunciacion80@gmail.com">Email</a></li>
+    </ul>
+  </div>
+  <div class="portrait" id="portrait" data-par="-0.06">
+    <i class="blk blue"></i><i class="blk red"></i>
+    <img src="assets/img/adrian.jpg" alt="Portrait of Adrian Anunciacion" width="640" height="778">
+  </div>
+</section>
+
+<!-- ===== SKILLS STRIP: the moving words under the hero ===== -->
+<div class="ticker-wrap"><div class="ticker" aria-hidden="true"><div class="track" id="tick">
+  <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Figma</span><span>WordPress</span><span>Tailwind CSS</span><span>Git</span><span>Windows</span><span>Ubuntu</span><span>Taekwondo</span>
+</div></div></div>
+
+<!-- ===== ABOUT: paragraphs, quote, quick facts, photos ===== -->
+<section class="sec" id="about">
+  <h2>About me</h2>
+  <div class="about">
+    <div class="about-text">
+      <p class="big fill">I build websites from the first sketch to the live link, and I'm just as comfortable opening up a PC to get it working again.</p>
+      <p>On the web side I work with HTML, CSS and JavaScript, design in Figma, and build on WordPress when a project calls for it. I've shipped four sites so far and I'm adding React to my stack.</p>
+      <p>On the IT side I interned at Cloudstaff, where I assembled and maintained PCs and laptops and installed Windows and Ubuntu. I hold a BS Information Technology background from Holy Angel University, completing in 2027.</p>
+      <p>I'm also a taekwondo player and have been since high school. It gave me the habits I bring to work: show up, repeat the basics, take correction, try again.</p>
+      <blockquote class="drive">Good websites sit where clean code meets careful design. I care about the small details, and about code that the next person can read.</blockquote>
+      <dl class="facts">
+        <div><dt>Based in</dt><dd>Mabalacat, Pampanga</dd></div>
+        <div><dt>Degree</dt><dd>BS Information Technology</dd></div>
+        <div><dt>Focus</dt><dd>Web development, IT support</dd></div>
+        <div><dt>Status</dt><dd>Open to work</dd></div>
+        <div class="full"><dt>Outside work</dt><dd>Taekwondo, movies, K-dramas, sci-fi and documentaries</dd></div>
+      </dl>
+    </div>
+    <div class="gallery" id="gallery" aria-label="Photos of Adrian">
+      <!-- add more: put tkd-1.jpg, tkd-2.jpg in assets/tkd and ojt-1.jpg in assets/ojt. Missing files simply stay hidden. -->
+      <figure class="rv" data-par="0.05"><img src="assets/img/about-3.jpg" alt="Adrian leaning beside a statue" loading="lazy"></figure>
+      <figure class="rv" data-par="-0.05"><img src="assets/tkd/tkd-1.jpg" alt="Adrian at taekwondo" loading="lazy"><figcaption>Taekwondo</figcaption></figure>
+      <figure class="rv" data-par="0.05"><img src="assets/img/about-1.jpg" alt="Adrian standing next to a hot air balloon mural" loading="lazy"></figure>
+      <figure class="rv" data-par="-0.05"><img src="assets/tkd/tkd-2.jpg" alt="Adrian at taekwondo" loading="lazy"><figcaption>Taekwondo</figcaption></figure>
+      <figure class="rv" data-par="0.05"><img src="assets/img/about-2.jpg" alt="Adrian sitting in a cafe" loading="lazy"></figure>
+      <figure class="rv" data-par="-0.05"><img src="assets/ojt/ojt-1.jpg" alt="Adrian during OJT" loading="lazy"><figcaption>OJT</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS: one <article class="proj"> per project (details pop-up text is in js/main.js) ===== -->
+<section class="work" id="work">
+  <div class="hsticky">
+  <h2>Projects</h2>
+  <div class="projects" id="track">
+
+    <article class="proj">
+      <div class="shot rv" data-cursor="View">
+        <img class="main" src="assets/projects/hau-cover.jpg" alt="HAU Taekwondo Team website home page" loading="lazy">
+        <div class="thumbs">
+          <button type="button" class="on" data-src="assets/projects/hau-cover.jpg" aria-label="Show home page"><img src="assets/projects/hau-cover.jpg" alt=""></button>
+          <button type="button" data-src="assets/projects/hau-1.jpg" aria-label="Show programs page"><img src="assets/projects/hau-1.jpg" alt="" loading="lazy"></button>
+          <button type="button" data-src="assets/projects/hau-2.jpg" aria-label="Show another page"><img src="assets/projects/hau-2.jpg" alt="" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="info">
+        <h3>HAU Taekwondo Team website</h3>
+        <p>A site for my university's taekwondo team with training programs, team profiles and a media gallery. Built with plain HTML, CSS and JavaScript.</p>
+        <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+        <div class="proj-actions"><a class="btn small solid" href="https://adrianm16.github.io/HAUTKDwebsite/" target="_blank" rel="noopener">Open live site</a><button class="btn small" type="button" data-p="hau">Project details</button></div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="shot rv" data-cursor="View">
+        <img class="main" src="assets/projects/brew-cover.jpg" alt="Brew Haven coffee shop home page" loading="lazy">
+        <div class="thumbs">
+          <button type="button" class="on" data-src="assets/projects/brew-cover.jpg" aria-label="Show home page"><img src="assets/projects/brew-cover.jpg" alt=""></button>
+          <button type="button" data-src="assets/projects/brew-1.jpg" aria-label="Show menu"><img src="assets/projects/brew-1.jpg" alt="" loading="lazy"></button>
+          <button type="button" data-src="assets/projects/brew-2.jpg" aria-label="Show another page"><img src="assets/projects/brew-2.jpg" alt="" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Brew Haven coffee shop</h3>
+        <p>A coffee shop web app with a menu you can browse and a cart you can add to. The pages share reusable pieces so they all keep the same look.</p>
+        <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Node.js</li></ul>
+        <div class="proj-actions"><a class="btn small solid" href="https://adrianm16.github.io/BrewHavenCoffee/" target="_blank" rel="noopener">Open live site</a><button class="btn small" type="button" data-p="brew">Project details</button></div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="shot rv" data-cursor="View">
+        <img class="main" src="assets/projects/koma-cover.jpg" alt="KOMA clothing brand home page" loading="lazy">
+        <div class="thumbs">
+          <button type="button" class="on" data-src="assets/projects/koma-cover.jpg" aria-label="Show home page"><img src="assets/projects/koma-cover.jpg" alt=""></button>
+          <button type="button" data-src="assets/projects/koma-1.jpg" aria-label="Show products"><img src="assets/projects/koma-1.jpg" alt="" loading="lazy"></button>
+          <button type="button" data-src="assets/projects/koma-2.jpg" aria-label="Show another page"><img src="assets/projects/koma-2.jpg" alt="" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="info">
+        <h3>KOMA clothing brand</h3>
+        <p>A storefront concept for a Filipino streetwear label. Mostly a design exercise: branding, a product grid, and a quiet interface so the clothes stand out.</p>
+        <ul class="tags"><li>HTML</li><li>CSS</li><li>UI design</li></ul>
+        <div class="proj-actions"><a class="btn small solid" href="https://koma-ph.netlify.app/" target="_blank" rel="noopener">Open live site</a><button class="btn small" type="button" data-p="koma">Project details</button></div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="shot rv" data-cursor="View">
+        <img class="main" src="assets/projects/pilipinas-cover.jpg" alt="Pilipinas Ngayon news site home page" loading="lazy">
+        <div class="thumbs">
+          <button type="button" class="on" data-src="assets/projects/pilipinas-cover.jpg" aria-label="Show home page"><img src="assets/projects/pilipinas-cover.jpg" alt=""></button>
+          <button type="button" data-src="assets/projects/pilipinas-1.jpg" aria-label="Show articles"><img src="assets/projects/pilipinas-1.jpg" alt="" loading="lazy"></button>
+          <button type="button" data-src="assets/projects/pilipinas-2.jpg" aria-label="Show another page"><img src="assets/projects/pilipinas-2.jpg" alt="" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Pilipinas Ngayon news site</h3>
+        <p>A Filipino news site on WordPress and Elementor. Articles are sorted into categories, with custom CSS to tidy the navigation.</p>
+        <ul class="tags"><li>WordPress</li><li>Elementor</li><li>Custom CSS</li></ul>
+        <div class="proj-actions"><a class="btn small solid" href="https://voiceofthenation1.wordpress.com/" target="_blank" rel="noopener">Open live site</a><button class="btn small" type="button" data-p="pilipinas">Project details</button></div>
+      </div>
+    </article>
+
+  </div>
+  <div class="hbar" aria-hidden="true"><i id="hbar"></i></div>
+  </div>
+</section>
+
+<!-- ===== BACKGROUND: one <li> per row ===== -->
+<section class="sec" id="background">
+  <h2>Background</h2>
+  <ol class="rows">
+    <li><span class="when" id="ojt-when">Internship</span><div><h3>IT Support Intern, Cloudstaff</h3><p>Assembled, disassembled and maintained PCs and laptops, installed Windows and Ubuntu, and built a sample AI automation workflow.</p></div></li>
+    <li><span class="when">2023 to 2027</span><div><h3>BS Information Technology, Holy Angel University</h3><p>Angeles City, Pampanga. Coursework in web development, UI/UX design and database systems.</p></div></li>
+    <li><span class="when">2024 to now</span><div><h3>Professional certifications</h3><p>freeCodeCamp for web development and databases, AWS Academy for cloud, Simplilearn for UI/UX, and HubSpot Academy for SEO and marketing.</p></div></li>
+    <li><span class="when">Since high school</span><div><h3>Taekwondo player</h3><p>Years of training and competing taught me discipline, focus and how to take feedback.</p></div></li>
+  </ol>
+</section>
+
+<!-- ===== SKILLS: one <li> per skill ===== -->
+<section class="sec" id="skills">
+  <h2>Skills</h2>
+  <div class="skills">
+    <div class="skill-col"><h3>Web</h3><ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Responsive layouts</li><li>Tailwind CSS</li><li>WordPress</li><li>Elementor</li><li>Node.js basics</li></ul></div>
+    <div class="skill-col"><h3>Design and tools</h3><ul class="chips"><li>Figma</li><li>Canva</li><li>Git and GitHub</li><li>VS Code</li></ul></div>
+    <div class="skill-col"><h3>IT support</h3><ul class="chips"><li>PC and laptop assembly</li><li>Hardware cleaning</li><li>Windows installation</li><li>Ubuntu installation</li><li>AI automation workflows</li></ul></div>
+    <div class="skill-col"><h3>How I work</h3><ul class="chips"><li>Attention to detail</li><li>Problem solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li><li>Always learning</li></ul></div>
+    <div class="skill-col"><h3>Learning now</h3><ul class="chips dashed"><li>React</li><li>Redux</li><li>PostgreSQL</li><li>Shadcn/UI</li></ul></div>
+  </div>
+</section>
+
+<!-- ===== CERTIFICATES: the list is in js/main.js (CERTS) ===== -->
+<section class="sec" id="certificates">
+  <h2>Certificates</h2>
+  <div class="filters" id="filters" role="group" aria-label="Filter certificates">
+    <button type="button" class="on" data-f="all">All</button>
+    <button type="button" data-f="dev">Web development</button>
+    <button type="button" data-f="design">Design</button>
+    <button type="button" data-f="marketing">Marketing and SEO</button>
+    <button type="button" data-f="cloud">Cloud</button>
+  </div>
+  <ul class="certs" id="certs"></ul>
+</section>
+
+<!-- ===== RESUME: replace assets/Adrian_Anunciacion_Resume.pdf and assets/img/resume-preview.png ===== -->
+<section class="sec" id="resume">
+  <h2>Resume</h2>
+  <div class="resume">
+    <a class="sheet rv" data-cursor="Open" href="assets/Adrian_Anunciacion_Resume.pdf" target="_blank" rel="noopener" aria-label="Open resume PDF">
+      <img src="assets/img/resume-preview.png" alt="Preview of Adrian's one-page resume" loading="lazy">
+    </a>
+    <div>
+      <p class="big">One page with my education, work experience, projects, certifications and skills.</p>
+      <ul class="points">
+        <li>Four websites built and deployed</li>
+        <li>IT support internship at Cloudstaff</li>
+        <li>BS Information Technology, Holy Angel University</li>
+        <li>Certificates from freeCodeCamp, AWS Academy, Simplilearn and HubSpot Academy</li>
+      </ul>
+      <div class="cta">
+        <a class="btn solid" href="assets/Adrian_Anunciacion_Resume.pdf" download>Download resume (PDF)</a>
+        <a class="btn" href="assets/Adrian_Anunciacion_Resume.pdf" target="_blank" rel="noopener">Open in new tab</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BREAK THE BOARD ===== -->
+<section class="dojang" aria-label="Break the board">
+  <p class="dojang-lead">One more thing before you go.</p>
+  <div class="board-stage" id="stage">
+    <div class="behind">
+      <p>Clean break.</p>
+      <a class="btn solid" href="#contact">Now send me a message</a>
+      <button class="again" type="button" id="again">Set up a new board</button>
+    </div>
+    <button class="board" id="board" type="button" aria-describedby="board-help">
+      <span class="half left"></span><span class="half right"></span>
+      <svg class="cracks" viewBox="0 0 300 180" aria-hidden="true"><path class="c1" d="M150 0l-8 34 12 26-10 30"/><path class="c2" d="M144 90l10 28-9 30 6 32"/><path class="c1" d="M146 36l-26 14M152 62l30 10"/><path class="c2" d="M150 122l28-12M146 148l-24 8"/></svg>
+      <span class="board-label" id="board-label">Break the board</span>
+    </button>
+  </div>
+  <p class="dojang-help" id="board-help">In taekwondo you break a board to show your technique. Hit this one three times.</p>
+</section>
+
+<!-- ===== CONTACT: email, phone, links, form ===== -->
+<section class="sec contact" id="contact">
+  <div>
+    <h2>Contact</h2>
+    <p class="big">I'm open to work. Web development is my first choice, and I'm just as ready for IT support and other IT roles. Send a message and I'll reply within a day or two.</p>
+    <ul class="reach">
+      <li><span>Email</span><a href="mailto:adriananunciacion80@gmail.com">adriananunciacion80@gmail.com</a></li>
+      <li><span>Phone</span><a href="tel:+639481866935">+63 948 186 6935</a></li>
+      <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/adrian-anunciacion-b51913316/" target="_blank" rel="noopener">Adrian Anunciacion</a></li>
+      <li><span>GitHub</span><a href="https://github.com/AdrianM16" target="_blank" rel="noopener">github.com/AdrianM16</a></li>
+    </ul>
+    <a class="btn" href="assets/Adrian_Anunciacion_Resume.pdf" download>Download resume (PDF)</a>
+  </div>
+  <form class="form" id="form" action="https://formspree.io/f/mgollnrw" method="POST" novalidate>
+    <label>Your name<input name="name" type="text" autocomplete="name" required></label>
+    <label>Your email<input name="email" type="email" autocomplete="email" required></label>
+    <label>Company <small>(optional)</small><input name="company" type="text" autocomplete="organization"></label>
+    <label>Message<textarea name="message" rows="5" required></textarea></label>
+    <button class="btn solid" type="submit">Send message</button>
+    <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>Designed and coded by Adrian M. Anunciacion, <span id="year">2026</span>.</p>
+  <a href="#top">Back to top</a>
+</footer>
+
+<dialog class="details" id="details" aria-labelledby="d-title">
+  <button class="close" type="button" id="d-close" aria-label="Close">Close</button>
+  <h3 id="d-title"></h3>
+  <p id="d-about"></p>
+  <h4>What I did</h4>
+  <ul id="d-did"></ul>
+  <div class="d-shots" id="d-shots"></div>
+  <a class="btn solid" id="d-link" target="_blank" rel="noopener">Open live site</a>
+</dialog>
+
+<dialog class="lightbox" id="lightbox" aria-label="Certificate">
+  <button class="close" type="button" id="lb-close" aria-label="Close">Close</button>
+  <img id="lb-img" alt="">
+  <p id="lb-cap"></p>
+</dialog>
+
+<script src="js/main.js"></script>
+</body>
+</html>
