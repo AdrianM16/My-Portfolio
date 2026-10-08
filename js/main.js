@@ -1,17 +1,15 @@
-/* ==========================================================
-   EDIT ME: things you will most likely change later
-   ========================================================== */
-
-// Shown in the Background section instead of the word "OJT". Example: "Feb to May 2026"
 const OJT_PERIOD = "Jul to Oct 2026";
 
 // Certificates. To add one: copy a line, put the image in assets/certificates.
 // A certificate without "full" shows a plain name card until you add its image.
 const CERTS = [
-  { name: "Front-End Development Libraries", by: "freeCodeCamp", when: "October 2026", cat: "dev" },
-  { name: "Relational Databases", by: "freeCodeCamp", when: "October 2026", cat: "dev" },
-  { name: "AWS Cloud Foundations", by: "AWS Academy", when: "March 2026", cat: "cloud", img: "thumbs/aws.png", full: "aws1.png" },
-  { name: "JavaScript Algorithms and Data Structures", by: "freeCodeCamp", when: "September 2025", cat: "dev", img: "thumbs/javascript.png", full: "javascript1.png" },
+  { name: "Front-End Development Libraries", by: "freeCodeCamp", when: "October 2026", cat: "dev", img: "thumbs/fullfront.png", full: "fullfront.png" },
+  { name: "Front-End Development Libraries V8", by: "freeCodeCamp", when: "October 2026", cat: "dev", img: "thumbs/frontv8.png", full: "frontv8.png" },
+  { name: "AWS Cloud Foundations", by: "AWS Academy", when: "March 2026", cat: "cloud", img: "thumbs/aws.png", full: "aws1.png" }, 
+  { name: "CRUD Operations in MongoDB", by: "MongoDB", when: "August 2025", cat: "dev", img: "thumbs/mongo.png", full: "mongo.png" },
+  { name: "Cyber Threat Management", by: "Cisco", when: "September 2026", cat: "security", img: "thumbs/cyber.png", full: "cyber.png" },
+  { name: "Endpoint Security", by: "Cisco", when: "August 2025", cat: "security", img: "thumbs/endpoint.png", full: "endpoint.png" },
+  { name: "Legacy JavaScript Algorithms and Data Structures", by: "freeCodeCamp", when: "September 2025", cat: "dev", img: "thumbs/javascript.png", full: "javascript1.png" },
   { name: "Back-End Development and APIs", by: "freeCodeCamp", when: "August 2025", cat: "dev", img: "thumbs/backend.png", full: "backend1.png" },
   { name: "Responsive Web Design", by: "freeCodeCamp", when: "September 2024", cat: "dev", img: "thumbs/responsive.png", full: "cc-rwd1.PNG" },
   { name: "Sleek and Swift: Tailwind CSS and Shadcn/UI Workshop", by: "Code Geeks", when: "August 2025", cat: "dev", img: "thumbs/codegeeks-sleek.png", full: "thumbs/codegeeks-sleek.png" },
