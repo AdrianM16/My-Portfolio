@@ -1,7 +1,5 @@
 const OJT_PERIOD = "Jul to Oct 2026";
 
-// Certificates. To add one: copy a line, put the image in assets/certificates.
-// A certificate without "full" shows a plain name card until you add its image.
 const CERTS = [
   { name: "Front-End Development Libraries", by: "freeCodeCamp", when: "October 2026", cat: "dev", img: "thumbs/fullfront.png", full: "fullfront.png" },
   { name: "Front-End Development Libraries V8", by: "freeCodeCamp", when: "October 2026", cat: "dev", img: "thumbs/frontv8.png", full: "frontv8.png" },
