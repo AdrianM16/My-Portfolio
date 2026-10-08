@@ -376,7 +376,6 @@ $("#again").addEventListener("click", () => {
   hits = 0; stage.dataset.hits = 0; label.textContent = words[0]; board.removeAttribute("aria-label"); board.focus({ preventScroll: true });
 });
 
-// start watching for reveals once everything above has been built
 $$("h2, .rv, .certs").forEach((el) => reveal.observe(el));
 setupPin(); onScroll();
 
